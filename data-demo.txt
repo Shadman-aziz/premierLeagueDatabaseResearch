@@ -1,0 +1,269 @@
+csc343h-zakjonat=> \i schema.ddl
+psql:schema.ddl:1: NOTICE:  drop cascades to 7 other objects
+DETAIL:  drop cascades to table teamstats
+drop cascades to table referee
+drop cascades to table betting
+drop cascades to table games
+drop cascades to table matchstats
+drop cascades to table homestats
+drop cascades to table awaystats
+DROP SCHEMA
+CREATE SCHEMA
+SET
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+
+csc343h-zakjonat=> set search_path to premierleague;
+SET
+csc343h-zakjonat=> SET datestyle = dmy;
+SET
+csc343h-zakjonat=> \copy teamstats from teamstats.csv with csv;
+COPY 20
+csc343h-zakjonat=> \copy referee from referee.csv with csv;
+COPY 380
+csc343h-zakjonat=> \copy betting from betting.csv with csv;
+COPY 380
+csc343h-zakjonat=> \copy games from games.csv with csv;
+COPY 380
+csc343h-zakjonat=> \copy matchstats from matchstats.csv with csv;
+COPY 380
+csc343h-zakjonat=> \copy homestats from homestats.csv with csv;
+COPY 20
+csc343h-zakjonat=> \copy awaystats from awaystats.csv with csv;
+COPY 20
+
+
+csc343h-zakjonat=> select * from betting where oddsid<21;
+ oddsid | b365h | b365d | b365a | bwh  | bwd  | bwa  | whh  | whd  | wha  | vch  | vcd | vca
+--------+-------+-------+-------+------+------+------+------+------+------+------+-----+------
+      1 |  1.14 |    10 |    19 | 1.14 | 8.25 | 18.5 | 1.12 |  8.5 |   21 | 1.14 | 9.5 |   23
+      2 |    12 |   6.5 |  1.22 | 11.5 | 5.75 | 1.26 |   13 |    6 | 1.24 |   12 | 6.5 | 1.25
+      3 |  1.95 |   3.6 |   3.6 | 1.95 |  3.6 |  3.9 |    2 |  3.5 |  3.8 |    2 | 3.6 |    4
+      4 |  2.62 |   3.2 |  2.75 | 2.65 |  3.2 | 2.75 |  2.7 |  3.2 | 2.75 |  2.7 | 3.3 |  2.8
+      5 |     3 |  3.25 |  2.37 |  3.2 |  3.2 | 2.35 |  3.1 |  3.3 | 2.35 |  3.2 | 3.3 | 2.45
+      6 |   1.9 |   3.4 |     4 |  1.9 |  3.4 | 4.33 | 1.95 |  3.4 |  4.2 | 1.95 | 3.5 | 4.33
+      7 |   1.3 |  5.25 |    10 |  1.3 |  5.5 |   10 | 1.29 |  5.5 |   10 |  1.3 | 5.5 |   12
+      8 |   2.2 |   3.2 |   3.4 | 2.25 |  3.3 |  3.3 |  2.2 | 3.25 |  3.5 | 2.25 | 3.3 |  3.6
+      9 |   4.5 |  3.75 |  1.72 |  4.5 | 3.75 | 1.78 |  4.5 | 3.75 | 1.78 |  4.6 | 3.9 |  1.8
+     10 |   2.1 |   3.3 |   3.5 | 2.15 |  3.3 |  3.5 | 2.15 |  3.3 |  3.5 | 2.25 | 3.3 |  3.5
+     11 |   1.3 |   5.5 |    10 |  1.3 |  5.5 |   10 | 1.32 | 5.25 |   10 | 1.33 | 5.5 | 10.5
+     12 |   2.3 |   3.4 |   3.1 | 2.25 |  3.5 |  3.1 | 2.25 |  3.5 |  3.1 | 2.38 | 3.5 |  3.2
+     13 |  2.55 |  3.25 |  2.87 |  2.5 |  3.3 |  2.9 |  2.5 |  3.3 | 2.88 | 2.55 | 3.4 |    3
+     14 |  1.72 |   3.8 |  4.75 | 1.67 |    4 |    5 | 1.73 |  3.8 |  4.8 | 1.73 |   4 |  5.2
+     15 |  2.25 |   3.3 |   3.3 | 2.25 |  3.3 |  3.3 | 2.15 |  3.4 |  3.4 | 2.25 | 3.4 |  3.5
+     16 |   6.5 |  4.75 |  1.44 | 6.25 | 4.75 | 1.48 |    7 |  4.6 | 1.44 |  7.5 | 4.8 | 1.45
+     17 |  1.36 |  5.25 |     8 | 1.35 |  5.5 | 7.75 | 1.35 | 5.25 |  8.5 | 1.36 | 5.5 |    9
+     18 |  2.55 |   3.1 |   2.9 | 2.55 |  3.2 |  2.9 | 2.55 |  3.2 |  2.9 | 2.63 | 3.2 |    3
+     19 |   1.7 |  3.75 |     5 | 1.72 |  3.7 |    5 |  1.7 |  3.7 | 5.25 | 1.73 | 3.8 | 5.25
+     20 |   3.3 |   3.3 |  2.25 |  3.3 | 3.25 |  2.3 |  3.3 | 3.25 |  2.3 |  3.4 | 3.3 |  2.3
+(20 rows)
+
+csc343h-zakjonat=> select count(*) from betting;
+ count
+-------
+   380
+(1 row)
+
+
+csc343h-zakjonat=> select * from games where awayteam='Liverpool';
+     hometeam     | awayteam  |    date    |   time   |  referee   | oddsid
+------------------+-----------+------------+----------+------------+--------
+ Southampton      | Liverpool | 2019-08-17 | 15:00:00 | A Marriner |     16
+ Burnley          | Liverpool | 2019-08-31 | 17:30:00 | C Kavanagh |     38
+ Chelsea          | Liverpool | 2019-09-22 | 16:30:00 | M Oliver   |     60
+ Sheffield United | Liverpool | 2019-09-28 | 12:30:00 | A Taylor   |     61
+ Man United       | Liverpool | 2019-10-20 | 16:30:00 | M Atkinson |     89
+ Aston Villa      | Liverpool | 2019-11-02 | 15:00:00 | J Moss     |    103
+ Crystal Palace   | Liverpool | 2019-11-23 | 15:00:00 | K Friend   |    125
+ Bournemouth      | Liverpool | 2019-12-07 | 15:00:00 | C Kavanagh |    152
+ Leicester        | Liverpool | 2019-12-26 | 20:00:00 | M Oliver   |    188
+ Tottenham        | Liverpool | 2020-01-11 | 17:30:00 | M Atkinson |    217
+ Wolves           | Liverpool | 2020-01-23 | 20:00:00 | M Oliver   |    239
+ West Ham         | Liverpool | 2020-01-29 | 19:45:00 | J Moss     |    240
+ Norwich          | Liverpool | 2020-02-15 | 17:30:00 | S Attwell  |    256
+ Watford          | Liverpool | 2020-02-29 | 17:30:00 | M Oliver   |    276
+ Everton          | Liverpool | 2020-06-21 | 19:00:00 | M Dean     |    299
+ Man City         | Liverpool | 2020-07-02 | 20:15:00 | A Taylor   |    320
+ Brighton         | Liverpool | 2020-07-08 | 20:15:00 | C Pawson   |    337
+ Arsenal          | Liverpool | 2020-07-15 | 20:15:00 | P Tierney  |    355
+ Newcastle        | Liverpool | 2020-07-26 | 16:00:00 | A Taylor   |    378
+(19 rows)
+
+csc343h-zakjonat=> select count(*) from games;
+ count
+-------
+   380
+(1 row)
+
+
+ csc343h-zakjonat=> select * from homestats;
+       team       |    avghometeamgoals    | avggoalsscoredagainst  | cleansheets
+------------------+------------------------+------------------------+-------------
+ Chelsea          |     1.5789473684210526 | 0.84210526315789473684 |           8
+ Wolves           |     1.4210526315789474 | 1.00000000000000000000 |           8
+ Bournemouth      |     1.1578947368421053 |     1.5789473684210526 |           3
+ Burnley          |     1.2631578947368421 |     1.2105263157894737 |           8
+ Everton          |     1.2631578947368421 |     1.1052631578947368 |           6
+ West Ham         |     1.5789473684210526 |     1.7368421052631579 |           3
+ Tottenham        |     1.8947368421052632 | 0.89473684210526315789 |           6
+ Aston Villa      |     1.1578947368421053 |     1.5789473684210526 |           7
+ Leicester        |     1.8421052631578947 | 0.89473684210526315789 |           8
+ Man United       |     2.1052631578947368 | 0.89473684210526315789 |           7
+ Norwich          | 1.00000000000000000000 |     1.9473684210526316 |           2
+ Liverpool        |     2.7368421052631579 | 0.84210526315789473684 |           7
+ Arsenal          |     1.8947368421052632 |     1.2631578947368421 |           5
+ Crystal Palace   | 0.78947368421052631579 |     1.0526315789473684 |           6
+ Southampton      |     1.1052631578947368 |     1.8421052631578947 |           3
+ Brighton         |     1.0526315789473684 |     1.4210526315789474 |           4
+ Watford          |     1.1578947368421053 |     1.4210526315789474 |           7
+ Sheffield United |     1.2631578947368421 | 0.78947368421052631579 |           8
+ Newcastle        |     1.0526315789473684 |     1.1052631578947368 |           7
+ Man City         |     3.0000000000000000 | 0.68421052631578947368 |          10
+(20 rows)
+
+csc343h-zakjonat=> select count(*) from homestats;
+ count
+-------
+    20
+(1 row)
+
+csc343h-zakjonat=> csc343h-zakjonat=> select * from matchstats where hometeam='Chelsea';
+ hometeam |     awayteam     | fthometeamgoals | ftawayteamgoals | ftresult | htresult
+----------+------------------+-----------------+-----------------+----------+----------
+ Chelsea  | Leicester        |               1 |               1 | D        | H
+ Chelsea  | Sheffield United |               2 |               2 | D        | H
+ Chelsea  | Liverpool        |               1 |               2 | A        | A
+ Chelsea  | Brighton         |               2 |               0 | H        | D
+ Chelsea  | Newcastle        |               1 |               0 | H        | D
+ Chelsea  | Crystal Palace   |               2 |               0 | H        | D
+ Chelsea  | West Ham         |               0 |               1 | A        | D
+ Chelsea  | Aston Villa      |               2 |               1 | H        | D
+ Chelsea  | Bournemouth      |               0 |               1 | A        | D
+ Chelsea  | Southampton      |               0 |               2 | A        | A
+ Chelsea  | Burnley          |               3 |               0 | H        | H
+ Chelsea  | Arsenal          |               2 |               2 | D        | H
+ Chelsea  | Man United       |               0 |               2 | A        | A
+ Chelsea  | Tottenham        |               2 |               1 | H        | H
+ Chelsea  | Everton          |               4 |               0 | H        | H
+ Chelsea  | Man City         |               2 |               1 | H        | H
+ Chelsea  | Watford          |               3 |               0 | H        | H
+ Chelsea  | Norwich          |               1 |               0 | H        | H
+ Chelsea  | Wolves           |               2 |               0 | H        | H
+(19 rows)
+
+csc343h-zakjonat=> select count(*) from matchstats;
+ count
+-------
+   380
+(1 row)
+
+csc343h-zakjonat=> select * from referee where referee='M Oliver';
+ referee  |     hometeam     |     awayteam     | hometeamfouls | awayteamfouls | hometeamred | hometeamyellow | awayteamred | awayteamyellow
+----------+------------------+------------------+---------------+---------------+-------------+----------------+-------------+----------------
+ M Oliver | Liverpool        | Norwich          |             9 |             9 |           0 |              0 |           0 |              2
+ M Oliver | Man City         | Tottenham        |            14 |             4 |           0 |              1 |           0 |              0
+ M Oliver | Aston Villa      | Everton          |            10 |            18 |           0 |              2 |           0 |              3
+ M Oliver | Brighton         | Burnley          |            13 |             7 |           0 |              0 |           0 |              2
+ M Oliver | Chelsea          | Liverpool        |             8 |            13 |           0 |              3 |           0 |              3
+ M Oliver | Everton          | Man City         |             4 |             8 |           0 |              2 |           0 |              2
+ M Oliver | West Ham         | Crystal Palace   |            11 |             7 |           0 |              3 |           0 |              2
+ M Oliver | Burnley          | Chelsea          |             7 |             8 |           0 |              3 |           0 |              2
+ M Oliver | Arsenal          | Wolves           |             6 |            15 |           0 |              0 |           0 |              2
+ M Oliver | Liverpool        | Man City         |            10 |             5 |           0 |              0 |           0 |              2
+ M Oliver | West Ham         | Tottenham        |            12 |            14 |           0 |              3 |           0 |              2
+ M Oliver | Southampton      | Watford          |             6 |            10 |           0 |              1 |           0 |              0
+ M Oliver | Aston Villa      | Leicester        |            21 |            15 |           0 |              6 |           0 |              2
+ M Oliver | Man United       | Everton          |            10 |            12 |           0 |              1 |           0 |              2
+ M Oliver | Leicester        | Liverpool        |             5 |             7 |           0 |              1 |           0 |              1
+ M Oliver | Burnley          | Aston Villa      |            12 |            10 |           0 |              1 |           0 |              1
+ M Oliver | Sheffield United | West Ham         |            11 |             6 |           0 |              1 |           0 |              0
+ M Oliver | Watford          | Tottenham        |            13 |            13 |           0 |              2 |           0 |              3
+ M Oliver | Wolves           | Liverpool        |             6 |            11 |           0 |              0 |           0 |              1
+ M Oliver | West Ham         | Brighton         |             8 |             9 |           0 |              1 |           0 |              1
+ M Oliver | Chelsea          | Tottenham        |            14 |            14 |           0 |              1 |           0 |              2
+ M Oliver | Watford          | Liverpool        |             4 |             8 |           0 |              0 |           0 |              0
+ M Oliver | Leicester        | Aston Villa      |            15 |            12 |           0 |              2 |           0 |              1
+ M Oliver | Aston Villa      | Sheffield United |            11 |            14 |           0 |              1 |           0 |              1
+ M Oliver | Wolves           | Bournemouth      |            11 |            11 |           0 |              3 |           0 |              3
+ M Oliver | Watford          | Southampton      |            18 |             9 |           0 |              3 |           0 |              0
+ M Oliver | Wolves           | Arsenal          |             6 |            11 |           0 |              2 |           0 |              4
+ M Oliver | West Ham         | Burnley          |             7 |             7 |           0 |              1 |           0 |              1
+ M Oliver | Tottenham        | Arsenal          |            16 |            11 |           0 |              5 |           0 |              3
+ M Oliver | Leicester        | Sheffield United |            12 |            10 |           0 |              1 |           0 |              2
+ M Oliver | Watford          | Man City         |            14 |            11 |           0 |              2 |           0 |              0
+ M Oliver | West Ham         | Aston Villa      |            16 |            13 |           0 |              2 |           0 |              1
+(32 rows)
+
+csc343h-zakjonat=> select count(*) from referee;
+ count
+-------
+   380
+(1 row)
+
+
+csc343h-zakjonat=> select * from teamstats;
+       team       | wins | losses | draw
+------------------+------+--------+------
+ Liverpool        |   32 |      3 |    3
+ Man City         |   26 |      9 |    3
+ Man United       |   18 |      8 |   12
+ Chelsea          |   20 |     12 |    6
+ Leicester        |   18 |     12 |    8
+ Tottenham        |   16 |     11 |   11
+ Wolves           |   15 |      9 |   14
+ Arsenal          |   14 |     10 |   14
+ Sheffield United |   14 |     12 |   12
+ Burnley          |   15 |     14 |    9
+ Southampton      |   15 |     16 |    7
+ Everton          |   13 |     15 |   10
+ Newcastle        |   11 |     16 |   11
+ Crystal Palace   |   11 |     17 |   10
+ Brighton         |    9 |     15 |   14
+ West Ham         |   10 |     19 |    9
+ Aston Villa      |    9 |     21 |    8
+ Bournemouth      |    9 |     22 |    7
+ Watford          |    8 |     20 |   10
+ Norwich          |    5 |     27 |    6
+(20 rows)
+
+csc343h-zakjonat=> select count(*) from teamstats;
+ count
+-------
+    20
+(1 row)
+
+csc343h-zakjonat=> select * from awaystats;
+       team       |    avgawayteamgoals    | avggoalsscoredagainst  | cleansheets
+------------------+------------------------+------------------------+-------------
+ Arsenal          |     1.0526315789473684 |     1.2631578947368421 |           5
+ Aston Villa      | 1.00000000000000000000 |     1.9473684210526316 |           0
+ Bournemouth      | 0.94736842105263157895 |     1.8421052631578947 |           2
+ Brighton         | 1.00000000000000000000 |     1.4210526315789474 |           5
+ Burnley          | 1.00000000000000000000 |     1.4210526315789474 |           7
+ Chelsea          |     2.0526315789473684 |     2.0000000000000000 |           1
+ Crystal Palace   | 0.84210526315789473684 |     1.5789473684210526 |           4
+ Everton          |     1.0526315789473684 |     1.8421052631578947 |           3
+ Leicester        |     1.6842105263157895 |     1.2631578947368421 |           5
+ Liverpool        |     1.7368421052631579 | 0.89473684210526315789 |           8
+ Man City         |     2.3684210526315789 |     1.1578947368421053 |           7
+ Man United       |     1.3684210526315789 | 1.00000000000000000000 |           6
+ Newcastle        | 0.94736842105263157895 |     1.9473684210526316 |           4
+ Norwich          | 0.36842105263157894737 |     2.0000000000000000 |           3
+ Sheffield United | 0.78947368421052631579 |     1.2631578947368421 |           5
+ Southampton      |     1.5789473684210526 |     1.3157894736842105 |           6
+ Tottenham        |     1.3157894736842105 |     1.5789473684210526 |           2
+ Watford          | 0.73684210526315789474 |     1.9473684210526316 |           2
+ West Ham         | 1.00000000000000000000 |     1.5263157894736842 |           4
+ Wolves           |     1.2631578947368421 |     1.1052631578947368 |           5
+(20 rows)
+
+csc343h-zakjonat=> select count(*) from awaystats;
+ count
+-------
+    20
+(1 row)

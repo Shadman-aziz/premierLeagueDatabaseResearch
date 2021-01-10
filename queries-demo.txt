@@ -1,0 +1,135 @@
+
+-- Question 1: Do teams do better (win more) in away games?
+
+csc343h-zakjonat=> select ftresult, count(ftresult) from matchstats group by ftresult;
+ ftresult | count
+----------+-------
+ H        |   172
+ D        |    92
+ A        |   116
+(3 rows)
+
+
+
+-- Question 2: Given the betting odds are against a team, do they perform better at home than when
+they’re away.
+
+
+sc343h-zakjonat=> create view oddsAgainstHome as select * from
+csc343h-zakjonat-> (select ftresult, winLikelihood from matchstats
+csc343h-zakjonat(> natural join
+csc343h-zakjonat(> (select oddsid, hometeam, awayteam, winLikelihood from games
+csc343h-zakjonat(> natural join
+csc343h-zakjonat(> (select oddsid, -1 * ((b365h + bwh +whh + vch)/4 - (b365a + bwa +wha + vca)/4) as winLikelihood
+csc343h-zakjonat(> from betting) as A) as B) as C
+csc343h-zakjonat-> where winLikelihood < 0;
+CREATE VIEW
+csc343h-zakjonat=> select * from oddsAgainstHome; -- result here is truncated
+ ftresult |      winlikelihood
+----------+--------------------------
+ A        | -10.88250000000000000000
+ D        |      -0.7450000000000000
+ A        |      -2.7550000000000000
+ A        |      -5.3600000000000000
+ D        |      -1.0375000000000000
+ H        |      -0.9375000000000000
+ A        |      -2.5075000000000000
+ A        |      -1.2375000000000000
+ A        | -13.94500000000000000000
+ D        |      -1.6750000000000000
+ A        |      -8.7500000000000000
+ A        |      -0.5250000000000000
+ H        | -14.72750000000000000000
+ H        |      -0.6375000000000000
+ D        |      -1.6600000000000000
+ H        |      -0.4625000000000000
+ H        |      -0.9875000000000000
+ A        |      -1.5625000000000000
+ A        |      -7.7825000000000000
+ A        |      -8.8975000000000000
+ H        |      -1.9375000000000000
+ H        |      -0.3550000000000000
+ A        |      -2.1700000000000000
+ H        |      -2.5750000000000000
+ A        | -11.40500000000000000000
+ D        |      -3.4625000000000000
+ H        |      -1.9450000000000000
+ A        |      -0.8675000000000000
+ H        |      -0.3075000000000000
+ A        |      -2.8125000000000000
+ D        |      -0.4000000000000000
+
+csc343h-zakjonat=> create view oddsAgainstAway as select * from
+csc343h-zakjonat-> (select ftresult, winLikelihood from matchstats
+csc343h-zakjonat(> natural join
+csc343h-zakjonat(> (select oddsid, hometeam, awayteam, winLikelihood from games
+csc343h-zakjonat(> natural join
+csc343h-zakjonat(> (select oddsid, -1 * ((b365h + bwh +whh + vch)/4 - (b365a + bwa +wha + vca)/4) as winLikelihood
+csc343h-zakjonat(> from betting) as A) as B) as C
+inLikelihoodcsc343h-zakjonat-> where winLikelihood > 0;
+
+csc343h-zakjonat=> select * from oddsAgainstAway; -- result here is truncated
+ ftresult |      winlikelihood
+----------+-------------------------
+ H        | 19.24000000000000000000
+ D        |      1.8500000000000000
+ H        |      0.0950000000000000
+ A        |      2.2900000000000000
+ H        |      9.2025000000000000
+ D        |      1.2250000000000000
+ H        |      1.3375000000000000
+ H        |      8.8125000000000000
+ A        |      0.8300000000000000
+ D        |      0.3875000000000000
+ H        |      3.2250000000000000
+ H        |      1.1500000000000000
+ D        |      6.9575000000000000
+ H        |      0.3550000000000000
+ D        |      3.4125000000000000
+ A        |      0.6875000000000000
+ A        |      8.1550000000000000
+ A        |      1.4000000000000000
+ H        |      4.7625000000000000
+ A        | 12.14750000000000000000
+ D        |      2.8900000000000000
+ D        |      8.0125000000000000
+ H        |      1.2875000000000000
+ H        |      3.1175000000000000
+ H        | 30.17000000000000000000
+ D        |      0.2700000000000000
+ H        |      2.0725000000000000
+ H        |      1.4500000000000000
+
+ csc343h-zakjonat=> select
+csc343h-zakjonat-> ((select count(ftresult) from oddsAgainstHome where ftresult='H') /
+csc343h-zakjonat(> cast((select count(*) from oddsAgainstHome) as float)) as likelihood;
+    likelihood
+-------------------
+ 0.285714285714286
+(1 row)
+
+csc343h-zakjonat=> select
+csc343h-zakjonat-> ((select count(ftresult) from oddsAgainstAway where ftresult='A') /
+csc343h-zakjonat(> cast((select count(*) from oddsAgainstAway) as float)) as likelihood;
+    likelihood
+-------------------
+ 0.195121951219512
+(1 row)
+
+
+
+
+
+
+
+
+
+-- Question 3: Do referees give out more cards to the away team than the home team?
+
+csc343h-zakjonat=> select sum(hometeamyellow) + sum(hometeamred) -
+csc343h-zakjonat-> (sum(awayteamyellow) + sum(awayteamred)) from referee;
+ ?column?
+----------
+      -69
+(1 row)
+
